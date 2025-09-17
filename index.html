@@ -41,9 +41,7 @@
       padding:6px;
     }
     nav a::after {
-      content:'';
-      position:absolute;
-      left:0; bottom:-6px;
+      content:''; position:absolute; left:0; bottom:-6px;
       height:2px; width:0;
       background:var(--accent);
       transition:width .35s ease;
@@ -82,7 +80,7 @@
       100% { opacity:0; transform:scale(1); }
     }
 
-    /* Subtitle - bouncing characters (changed) */
+    /* Subtitle */
     .subtitle {
       color:#fff;
       margin-top:8px;
@@ -138,28 +136,20 @@
     }
 
     /* Carousel */
-    .carousel-container {
-      position:relative;
-      overflow:hidden;
-      margin:20px 0;
-    }
+    .carousel-container { position:relative; overflow:hidden; margin:20px 0; }
     .carousel-track {
       display:flex;
       transition:transform .8s cubic-bezier(.25,.8,.25,1);
+      gap:1rem;
     }
     .carousel-item {
       min-width:60%;
-      margin:0 1rem;
       flex-shrink:0;
       transform:scale(.8);
       opacity:.6;
       transition:transform .8s ease,opacity .8s ease;
     }
-    .carousel-item.active {
-      transform:scale(1);
-      opacity:1;
-      z-index:2;
-    }
+    .carousel-item.active { transform:scale(1); opacity:1; z-index:2; }
     .carousel-item iframe,
     .carousel-item img {
       width:100%;
@@ -169,10 +159,7 @@
       object-fit:cover;
       pointer-events:auto;
     }
-    .carousel-item:hover {
-      transform:scale(1.03);
-      opacity:1;
-    }
+    .carousel-item:hover { transform:scale(1.03); opacity:1; }
     .carousel-controls {
       position:absolute;
       top:50%;
@@ -193,9 +180,7 @@
       cursor:pointer;
       transition:background .25s;
     }
-    .carousel-controls button:hover {
-      background:rgba(255,255,255,0.18);
-    }
+    .carousel-controls button:hover { background:rgba(255,255,255,0.18); }
     .carousel-dots {
       text-align:center;
       margin-top:12px;
@@ -211,9 +196,7 @@
       cursor:pointer;
     }
     .dot.active::after {
-      content:'';
-      position:absolute;
-      left:0; top:0;
+      content:''; position:absolute; left:0; top:0;
       height:100%; width:100%;
       background:var(--accent);
       animation:fillDot 5s linear forwards;
@@ -248,6 +231,13 @@
       .carousel-item { min-width:80%; }
       .brand { font-size:2rem; }
     }
+
+    @media(max-width:500px) {
+      .carousel-item { flex:0 0 100%; margin:0; }
+      .carousel-item iframe,
+      .carousel-item img { width:100%; height:auto; object-fit:cover; }
+      .carousel-track { gap:0; }
+    }
   </style>
 </head>
 <body>
@@ -264,7 +254,6 @@
     <!-- Landing -->
     <div class="landing" id="home">
       <div class="brand" id="brand"></div>
-      <!-- subtitle is now populated by JS as per-character spans -->
       <div class="subtitle" id="subtitle"></div>
 
       <!-- Skills -->
@@ -290,15 +279,10 @@
       <div class="carousel-container" data-type="video">
         <div class="carousel-track">
           <div class="carousel-item"><iframe src="https://www.youtube.com/embed/OVqrYxoJTQw?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/_iPf-dmYYks?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/BpUE7SrmUhs?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/wZ6cST5pexo?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/deSsG444nU0?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/QGE7i0dVs5w?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/vlWlgg2Laj8?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/kDdrgZ0C5Gc?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/5LRTlWHOQaE?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
-          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/cUngFXNXoeo?enablejsapi=1&mute=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/_iPf-dmYYks?enablejsapi=1&mute=1&rel=0" allowfullscreen></iframe></div>
+          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/BpUE7SrmUhs?enablejsapi=1&mute=1&rel=0" allowfullscreen></iframe></div>
+          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/wZ6cST5pexo?enablejsapi=1&mute=1&rel=0" allowfullscreen></iframe></div>
+          <div class="carousel-item"><iframe src="https://www.youtube.com/embed/deSsG444nU0?enablejsapi=1&mute=1&rel=0" allowfullscreen></iframe></div>
         </div>
         <div class="carousel-controls">
           <button class="prev">&#10094;</button>
@@ -337,31 +321,26 @@
   </footer>
 
   <script>
-    // JAYDEEP bubble
+    // Brand bubble animation
     const brandEl = document.getElementById("brand");
     const name = "JAYDEEP";
     [...name].forEach((ch,i)=>{
       const span = document.createElement("span");
       span.textContent = ch;
-      span.style.animationDelay = (i*0.3)+"s"; // slower and smoother
+      span.style.animationDelay = (i*0.3)+"s";
       brandEl.appendChild(span);
     });
 
-    // Skills slider - ONLY CHANGED: auto-fill on load + hover replay
+    // Skills bars
     (function(){
       const fills = document.querySelectorAll('.bar > i');
-
       function fillAll(){
         fills.forEach(i=>{
           i.style.transition = 'width 1.8s cubic-bezier(.22,1,.36,1)';
           i.style.width = i.dataset.target;
         });
       }
-
-      // fill once on page load
       window.addEventListener('load', fillAll);
-
-      // replay on hover (keeps final filled state when not hovered)
       document.querySelectorAll('.skill').forEach(skill=>{
         const bar = skill.querySelector('.bar > i');
         const target = bar.dataset.target;
@@ -375,7 +354,7 @@
       });
     })();
 
-    // Subtitle: per-character bounce (ONLY CHANGED)
+    // Subtitle animation
     (function(){
       const subtitleText = "A Professional Video / Thumbnail Maker";
       const subtitleEl = document.getElementById("subtitle");
@@ -388,7 +367,7 @@
       });
     })();
 
-    // Carousel (unchanged)
+    // Carousel
     document.querySelectorAll('.carousel-container').forEach(container=>{
       const track=container.querySelector('.carousel-track');
       const items=[...track.children];
@@ -409,7 +388,7 @@
       function updateSlide(){
         items.forEach((item,i)=>item.classList.toggle('active',i===index));
         dots.forEach((d,i)=>d.classList.toggle('active',i===index));
-        const shift=-index*(items[0].offsetWidth+32);
+        const shift=-index*(items[0].offsetWidth+(parseFloat(getComputedStyle(track).gap)||0));
         track.style.transform=`translateX(${shift}px)`;
       }
       function goToSlide(i){ index=(i+items.length)%items.length; updateSlide(); }
