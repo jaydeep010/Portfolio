@@ -82,23 +82,21 @@
       100% { opacity:0; transform:scale(1); }
     }
 
-    /* Subtitle - slow typewriter */
+    /* Subtitle - bouncing characters (changed) */
     .subtitle {
       color:#fff;
       margin-top:8px;
       font-size:1.05rem;
+      display:inline-block;
       white-space:nowrap;
-      overflow:hidden;
-      width:0;
-      animation:typeWriter 4s steps(40) forwards;
     }
-    @keyframes typeWriter {
-      0% { width:0; }
-      100% { width:32ch; } /* approximate length of subtitle */
+    .subtitle span {
+      display:inline-block;
+      animation:subtitleBounce 1.2s ease-in-out infinite;
     }
-    @keyframes blinkCaret {
-      0%,100% { border-color:transparent; }
-      50% { border-color:#fff; }
+    @keyframes subtitleBounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
     }
 
     /* Skills */
@@ -266,7 +264,8 @@
     <!-- Landing -->
     <div class="landing" id="home">
       <div class="brand" id="brand"></div>
-      <div class="subtitle">A Professional Video / Thumbnail Maker</div>
+      <!-- subtitle is now populated by JS as per-character spans -->
+      <div class="subtitle" id="subtitle"></div>
 
       <!-- Skills -->
       <div class="skills" id="skills">
@@ -348,35 +347,48 @@
       brandEl.appendChild(span);
     });
 
-    // Skills slider
+    // Skills slider - ONLY CHANGED: auto-fill on load + hover replay
     (function(){
-      const fills=document.querySelectorAll('.bar > i');
-      let filledOnce=false;
+      const fills = document.querySelectorAll('.bar > i');
+
       function fillAll(){
-        fills.forEach(i=>i.style.width=i.dataset.target);
-        filledOnce=true;
+        fills.forEach(i=>{
+          i.style.transition = 'width 1.8s cubic-bezier(.22,1,.36,1)';
+          i.style.width = i.dataset.target;
+        });
       }
-      function onMove(){
-        if(!filledOnce){
-          fillAll();
-          window.removeEventListener('mousemove',onMove);
-        }
-      }
-      window.addEventListener('mousemove',onMove);
+
+      // fill once on page load
+      window.addEventListener('load', fillAll);
+
+      // replay on hover (keeps final filled state when not hovered)
       document.querySelectorAll('.skill').forEach(skill=>{
-        const bar=skill.querySelector('.bar > i');
-        const target=bar.dataset.target;
-        skill.addEventListener('mouseenter',()=>{
-          bar.style.transition='none';
-          bar.style.width='0';
+        const bar = skill.querySelector('.bar > i');
+        const target = bar.dataset.target;
+        skill.addEventListener('mouseenter', ()=>{
+          bar.style.transition = 'none';
+          bar.style.width = '0';
           void bar.offsetWidth;
-          bar.style.transition='width 1.8s cubic-bezier(.22,1,.36,1)';
-          bar.style.width=target;
+          bar.style.transition = 'width 1.8s cubic-bezier(.22,1,.36,1)';
+          bar.style.width = target;
         });
       });
     })();
 
-    // Carousel
+    // Subtitle: per-character bounce (ONLY CHANGED)
+    (function(){
+      const subtitleText = "A Professional Video / Thumbnail Maker";
+      const subtitleEl = document.getElementById("subtitle");
+      subtitleEl.innerHTML = "";
+      [...subtitleText].forEach((ch,i)=>{
+        const span = document.createElement("span");
+        span.textContent = ch;
+        span.style.animationDelay = (i * 0.07) + "s";
+        subtitleEl.appendChild(span);
+      });
+    })();
+
+    // Carousel (unchanged)
     document.querySelectorAll('.carousel-container').forEach(container=>{
       const track=container.querySelector('.carousel-track');
       const items=[...track.children];
