@@ -82,15 +82,18 @@
 
     /* Subtitle */
     .subtitle {
-      color:#fff;
-      margin-top:8px;
-      font-size:1.05rem;
-      display:inline-block;
-      white-space:nowrap;
-    }
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 8px;
+  color: #737373; /* soft grayish white */
+  text-transform: uppercase; /* all caps */
+  text-align: center;
+}
+    /* each char-span */
     .subtitle span {
       display:inline-block;
       animation:subtitleBounce 1.2s ease-in-out infinite;
+      /* spacing will be applied inline (via JS) to allow different gap for spaces */
     }
     @keyframes subtitleBounce {
       0%,100% { transform: translateY(0); }
@@ -306,16 +309,16 @@
       <div class="carousel-container" data-type="thumb">
         <div class="carousel-track">
           <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/1.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/2.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/3.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/4.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/mc10new1.png?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/6.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/7.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/8.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/9.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/10.jpg?raw=true" alt="t1"></div>
-          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/11.jpg?raw=true" alt="t1"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/2.jpg?raw=true" alt="t2"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/3.jpg?raw=true" alt="t3"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/4.jpg?raw=true" alt="t4"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/mc10new1.png?raw=true" alt="t5"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/6.jpg?raw=true" alt="t6"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/7.jpg?raw=true" alt="t7"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/8.jpg?raw=true" alt="t8"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/9.jpg?raw=true" alt="t9"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/10.jpg?raw=true" alt="t10"></div>
+          <div class="carousel-item active"><img src="https://github.com/jaydeep010/Portfolio/blob/main/Thumbnails/11.jpg?raw=true" alt="t11"></div>
         </div>
         <div class="carousel-controls">
           <button class="prev">&#10094;</button>
@@ -367,14 +370,21 @@
       });
     })();
 
-    // Subtitle animation
+    // Subtitle animation — builds spaced characters (words get a larger gap)
     (function(){
-      const subtitleText = "You Get Videos & Thumbnails As You Want";
+      const subtitleText = "Videos & Thumbnails As You Want";
       const subtitleEl = document.getElementById("subtitle");
       subtitleEl.innerHTML = "";
       [...subtitleText].forEach((ch,i)=>{
         const span = document.createElement("span");
-        span.textContent = ch;
+        // For space characters we put a non-breaking space and give bigger margin
+        if (ch === " ") {
+          span.innerHTML = "&nbsp;";
+          span.style.marginRight = "1rem"; // wider gap between words
+        } else {
+          span.textContent = ch;
+          span.style.marginRight = "0.6rem"; // cinematic spacing between letters
+        }
         span.style.animationDelay = (i * 0.07) + "s";
         subtitleEl.appendChild(span);
       });
